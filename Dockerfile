@@ -12,7 +12,17 @@ RUN npm install
 # Copy the rest of the application code
 COPY . .
 
-EXPOSE 5173
-
 # Build the app
 RUN npm run build
+
+# Use a lightweight web server to serve the static files
+FROM nginx:alpine
+
+# Copy built assets from build stage
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# Expose port 80
+EXPOSE 80
+
+# Start Nginx server
+CMD ["nginx", "-g", "daemon off;"]
