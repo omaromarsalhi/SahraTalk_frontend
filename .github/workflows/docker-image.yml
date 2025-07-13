@@ -1,4 +1,4 @@
-name: Build, Push, and Deploy Docker Image
+name: Build, Push, and Deploy SahraTal FrontEnd
 
 on:
   push:
@@ -56,5 +56,5 @@ jobs:
             docker run -d --name SahraTalkFE -p 5173:5173 ${{ secrets.DOCKER_USERNAME }}/sahratalk-fe:1.0
   
             # Verify the container is running
-            docker ps -a | grep first-app
+            docker ps -a | grep SahraTalkFE
             echo "Deployment completed!"
