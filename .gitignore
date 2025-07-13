@@ -1,0 +1,36 @@
+# dependencies
+node_modules/
+
+# production
+dist/
+build/
+
+# misc
+.env*
+.DS_Store
+*.log
+
+# local env files
+.local/
+
+# IDEs and editors
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# npm logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# coverage
+coverage/
