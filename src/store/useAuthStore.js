@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { axiosInstance } from "../lib/axios.js";
 import toast from "react-hot-toast";
 import { io } from "socket.io-client";
+import { tokenService } from "../utils/tokenService";
 
 const BASE_URL =
   import.meta.env.MODE === "development" ? "http://localhost:3000" : "/";
@@ -18,11 +19,9 @@ export const useAuthStore = create((set, get) => ({
   checkAuth: async () => {
     try {
       const res = await axiosInstance.get("/auth/check");
-
       set({ authUser: res.data });
       get().connectSocket();
-    } catch (error) {
-      console.log("Error in checkAuth:", error);
+    } catch {
       set({ authUser: null });
     } finally {
       set({ isCheckingAuth: false });
@@ -34,6 +33,9 @@ export const useAuthStore = create((set, get) => ({
     try {
       const res = await axiosInstance.post("/auth/signup", data);
       set({ authUser: res.data });
+      if (res.data.accessToken) {
+        tokenService.set(res.data.accessToken);
+      }
       toast.success("Account created successfully");
       get().connectSocket();
     } catch (error) {
@@ -46,20 +48,16 @@ export const useAuthStore = create((set, get) => ({
   login: async (data) => {
     set({ isLoggingIn: true });
     try {
-      console.log("Attempting to login with data:", data);
-      // const res = await axiosInstance.post("/auth/signin", data);
-      const res = await axiosInstance.post("/auth/signin", {
-        email: "testuser@example.com",
-        password: "StrongPassword123!",
-      });
-      console.log("Login response:", res);
+      const res = await axiosInstance.post("/auth/signin", data);
       if (!res.data) throw new Error("Login failed");
       set({ authUser: res.data });
+      if (res.data.access_token) {
+        tokenService.set(res.data.access_token);
+      }
       toast.success("Logged in successfully");
-
       get().connectSocket();
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || error.message);
     } finally {
       set({ isLoggingIn: false });
     }
@@ -69,10 +67,11 @@ export const useAuthStore = create((set, get) => ({
     try {
       await axiosInstance.post("/auth/logout");
       set({ authUser: null });
+      tokenService.remove();
       toast.success("Logged out successfully");
       get().disconnectSocket();
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || error.message);
     }
   },
 
