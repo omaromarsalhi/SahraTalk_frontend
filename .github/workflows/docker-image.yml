@@ -66,7 +66,9 @@ jobs:
             docker pull ${{ secrets.DOCKER_USERNAME }}/sahratalk-fe:1.0
   
             # Run the new container with proper cleanup and restart policy
-            docker run -d --name SahraTalkFE -p 8080:80 ${{ secrets.DOCKER_USERNAME }}/sahratalk-fe:1.0
+            docker run -d --name SahraTalkFE -p 8080:80 \
+              -e BACKEND_URL=${{ secrets.BACKEND_URL }} \
+              ${{ secrets.DOCKER_USERNAME }}/sahratalk-fe:1.0
   
             # Verify the container is running
             docker ps -a | grep SahraTalkFE
