@@ -67,10 +67,8 @@ jobs:
      
             docker pull ${{ secrets.DOCKER_USERNAME }}/sahratalk-fe:1.0
   
-            # Run the new container with proper cleanup and restart policy
-            docker run -d --name SahraTalkFE -p 8080:80 \
-              -e VITE_BACKEND_URL=${{ secrets.VITE_BACKEND_URL }} \
-              ${{ secrets.DOCKER_USERNAME }}/sahratalk-fe:1.0
+            # Run the container (environment variable is already baked in from build stage)
+            docker run -d --name SahraTalkFE -p 8080:80 ${{ secrets.DOCKER_USERNAME }}/sahratalk-fe:1.0
   
             # Verify the container is running
             docker ps -a | grep SahraTalkFE

@@ -3,6 +3,10 @@ FROM node:20-alpine AS build
 # Set working directory
 WORKDIR /app
 
+# Accept build argument and set environment variable
+ARG VITE_BACKEND_URL
+ENV VITE_BACKEND_URL=$VITE_BACKEND_URL
+
 # Copy package.json and package-lock.json (or yarn.lock)
 COPY package*.json ./
 
@@ -12,7 +16,7 @@ RUN npm install
 # Copy the rest of the application code
 COPY . .
 
-# Build the app
+# Build the app (now with VITE_BACKEND_URL available)
 RUN npm run build
 
 # Use a lightweight web server to serve the static files
@@ -27,6 +31,3 @@ EXPOSE 80
 
 # Start Nginx server
 CMD ["nginx", "-g", "daemon off;"]
-
-ARG VITE_BACKEND_URL
-ENV VITE_BACKEND_URL=$VITE_BACKEND_URL
