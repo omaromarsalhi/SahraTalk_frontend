@@ -8,7 +8,6 @@ export const axiosInstance = axios.create({
   withCredentials: true,
 });
 
-// Add a request interceptor
 axiosInstance.interceptors.request.use(
   (config) => {
     const token = tokenService.get();
