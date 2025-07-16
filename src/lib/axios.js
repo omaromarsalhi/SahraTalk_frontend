@@ -1,6 +1,6 @@
 import axios from "axios";
 import { tokenService } from "../utils/tokenService";
-
+import { useAuthStore } from "../store/useAuthStore";
 
 const backend_url = import.meta.env.VITE_BACKEND_URL || "http://localhost:3500";
 export const axiosInstance = axios.create({
@@ -20,12 +20,16 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Add a response interceptor for token refresh
+const localDisconnectUser = () => {
+  const { disconnetUser } = useAuthStore.getState();
+  disconnetUser();
+};
+
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    // If 401 error and not already retried
+
     if (
       error.response &&
       error.response.status === 401 &&
@@ -33,7 +37,6 @@ axiosInstance.interceptors.response.use(
     ) {
       originalRequest._retry = true;
       try {
-        // Call your refresh endpoint (adjust path as needed)
         const res = await axios.post(
           `${backend_url}/api/v1/auth/refresh`,
           {},
@@ -45,7 +48,7 @@ axiosInstance.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         return axiosInstance(originalRequest);
       } catch (refreshError) {
-        tokenService.remove();
+        localDisconnectUser();
         return Promise.reject(refreshError);
       }
     }
