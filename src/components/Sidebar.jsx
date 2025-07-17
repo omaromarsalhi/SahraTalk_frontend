@@ -69,7 +69,7 @@ const Sidebar = () => {
           >
             <div className="relative mx-auto lg:mx-0">
               <img
-                src={user.profilePic || "/avatar.png"}
+                src={user.image || "/avatar.png"}
                 alt={user.name}
                 className="size-12 object-cover rounded-full border-2 border-primary/30 shadow-md"
               />
@@ -118,7 +118,7 @@ const Sidebar = () => {
           <div className="flex items-center gap-4 p-3 rounded-xl bg-gradient-to-r from-primary/5 to-secondary/10 border border-primary/10 shadow-inner">
             <div className="relative">
               <img
-                src={authUser.profilePic || "/avatar.png"}
+                src={authUser.image || "/avatar.png"}
                 alt={authUser.name}
                 className="size-12 rounded-full object-cover border-2 border-primary/30 shadow-md"
               />
