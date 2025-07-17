@@ -46,7 +46,7 @@ const Sidebar = () => {
           <div className="flex items-center gap-1">
             <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
             <span className="text-xs text-zinc-500 font-medium">
-              {onlineUsers.length - 1} online
+              {onlineUsers.length === 0 ? 0 : onlineUsers.length - 1} online
             </span>
           </div>
         </div>
