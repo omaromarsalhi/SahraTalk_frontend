@@ -122,30 +122,17 @@ const Sidebar = () => {
                 alt={authUser.name}
                 className="size-12 rounded-full object-cover border-2 border-primary/30 shadow-md"
               />
-              {onlineUsers.includes(authUser.id) && (
-                <span className="absolute bottom-0 right-0 size-3 bg-green-500 rounded-full ring-2 ring-base-100 shadow" />
-              )}
+
+              <span className="absolute bottom-0 right-0 size-3 bg-green-500 rounded-full ring-2 ring-base-100 shadow" />
             </div>
             <div className="hidden lg:block text-left flex-1 min-w-0">
-              <div className="font-semibold text-primary text-sm truncate font-mono">
+              <div className="font-semibold text-primary text-lg truncate font-mono">
                 @{authUser.username}
               </div>
-              <div
-                className={`text-xs flex items-center gap-1 mt-1 ${
-                  onlineUsers.includes(authUser.id)
-                    ? "text-green-600"
-                    : "text-zinc-400"
-                }`}
-              >
-                <div
-                  className={`w-2 h-2 rounded-full ${
-                    onlineUsers.includes(authUser.id)
-                      ? "bg-green-500"
-                      : "bg-zinc-400"
-                  }`}
-                />
-                {onlineUsers.includes(authUser.id) ? "Online" : "Offline"}
-              </div>
+              
+            </div>
+            <div className="font-semibold text-primary text-2xl truncate font-mono">
+              🫡
             </div>
           </div>
         </div>
