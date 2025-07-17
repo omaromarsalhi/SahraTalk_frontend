@@ -78,27 +78,22 @@ const Sidebar = () => {
               )}
             </div>
 
-            <div className="hidden lg:block text-left min-w-0 flex-1">
+            {/* <div className="hidden lg:block text-left min-w-0 flex-1 justify-center ">
               <div className="inline-block px-2 py-0.5 bg-primary/10 text-primary font-semibold text-sm rounded-md shadow-sm mb-1 truncate font-mono">
                 @{user.username}
               </div>
-              <div
-                className={`text-xs flex items-center gap-1 mt-1 ${
-                  onlineUsers.includes(user.id)
-                    ? "text-green-600"
-                    : "text-zinc-400"
-                }`}
-              >
-                <div
-                  className={`w-2 h-2 rounded-full ${
-                    onlineUsers.includes(user.id)
-                      ? "bg-green-500"
-                      : "bg-zinc-400"
-                  }`}
-                />
-                {onlineUsers.includes(user.id) ? "Online" : "Offline"}
+
+            </div> */}
+            <div className="hidden lg:flex items-center text-left min-w-0 flex-1">
+              <div className="inline-block px-2 py-0.5 bg-primary/10 text-primary font-semibold text-md rounded-md shadow-sm  truncate font-mono">
+                @{user.username}
               </div>
             </div>
+            {/* <div className="hidden lg:block text-left flex-1 min-w-0">
+              <div className="font-semibold text-primary text-lg truncate font-mono">
+                @{authUser.username}
+              </div>
+            </div> */}
           </button>
         ))}
 
@@ -129,7 +124,6 @@ const Sidebar = () => {
               <div className="font-semibold text-primary text-lg truncate font-mono">
                 @{authUser.username}
               </div>
-              
             </div>
             <div className="font-semibold text-primary text-2xl truncate font-mono">
               🫡

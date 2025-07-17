@@ -36,8 +36,24 @@ export const useChatStore = create((set, get) => ({
   sendMessage: async (messageData) => {
     const { selectedUser, messages } = get();
     try {
-      const res = await axiosInstance.post(`/messages/send/${selectedUser.id}`, messageData);
+      const res = await axiosInstance.post(
+        `/messages/send/${selectedUser.id}`,
+        messageData
+      );
       set({ messages: [...messages, res.data] });
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  },
+
+  sendImage: async (image) => {
+    try {
+      const res = await axiosInstance.post("/upload/image", image, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return res.data.imageUrl;
     } catch (error) {
       toast.error(error.response.data.message);
     }
@@ -50,7 +66,8 @@ export const useChatStore = create((set, get) => ({
     const socket = useAuthStore.getState().socket;
 
     socket.on("newMessage", (newMessage) => {
-      const isMessageSentFromSelectedUser = newMessage.senderId === selectedUser.id;
+      const isMessageSentFromSelectedUser =
+        newMessage.senderId === selectedUser.id;
       if (!isMessageSentFromSelectedUser) return;
 
       set({
