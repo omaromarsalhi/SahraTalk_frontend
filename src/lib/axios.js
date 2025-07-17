@@ -36,17 +36,20 @@ axiosInstance.interceptors.response.use(
     ) {
       originalRequest._retry = true;
       try {
+        console.log("Attempting to refresh token...");
         const res = await axios.post(
           `${backend_url}/api/v1/auth/refresh`,
           {},
           { withCredentials: true }
         );
         console.log("Token refreshed successfully:", res.data);
+        console.log("Response headers:", res.headers);
         const newAccessToken = res.data.access_token;
         tokenService.set(newAccessToken);
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         return axiosInstance(originalRequest);
       } catch (refreshError) {
+        console.log("Token refresh failed:", refreshError.response?.data || refreshError.message);
         localDisconnectUser();
         return Promise.reject(refreshError);
       }
