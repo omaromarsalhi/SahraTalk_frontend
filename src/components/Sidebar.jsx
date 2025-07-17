@@ -78,22 +78,13 @@ const Sidebar = () => {
               )}
             </div>
 
-            {/* <div className="hidden lg:block text-left min-w-0 flex-1 justify-center ">
-              <div className="inline-block px-2 py-0.5 bg-primary/10 text-primary font-semibold text-sm rounded-md shadow-sm mb-1 truncate font-mono">
-                @{user.username}
-              </div>
-
-            </div> */}
+          
             <div className="hidden lg:flex items-center text-left min-w-0 flex-1">
               <div className="inline-block px-2 py-0.5 bg-primary/10 text-primary font-semibold text-md rounded-md shadow-sm  truncate font-mono">
                 @{user.username}
               </div>
             </div>
-            {/* <div className="hidden lg:block text-left flex-1 min-w-0">
-              <div className="font-semibold text-primary text-lg truncate font-mono">
-                @{authUser.username}
-              </div>
-            </div> */}
+          
           </button>
         ))}
 
