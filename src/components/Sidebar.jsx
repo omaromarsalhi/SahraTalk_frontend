@@ -21,57 +21,63 @@ const Sidebar = () => {
   if (isUsersLoading) return <SidebarSkeleton />;
 
   return (
-    <aside className="h-full w-20 lg:w-72 border-r border-base-300 flex flex-col transition-all duration-200 bg-base-100">
-      <div className="border-b border-base-300 w-full p-5">
-        <div className="flex items-center gap-2">
-          <Users className="size-6" />
-          <span className="font-medium hidden lg:block">Contacts</span>
+    <aside className="h-full w-20 lg:w-80 border-r border-base-300 flex flex-col transition-all duration-200 bg-base-100 shadow-xl">
+      <div className="border-b border-base-300 w-full p-6 bg-gradient-to-r from-primary/10 to-secondary/10">
+        <div className="flex items-center gap-3">
+          <div className="p-2 bg-primary/20 rounded-full shadow-sm">
+            <Users className="size-6 text-primary" />
+          </div>
+          <span className="font-bold text-lg hidden lg:block text-primary tracking-wide">Contacts</span>
         </div>
         
-        <div className="mt-3 hidden lg:flex items-center gap-2">
-          <label className="cursor-pointer flex items-center gap-2">
+        <div className="mt-4 hidden lg:flex items-center gap-4 justify-between">
+          <label className="cursor-pointer flex items-center gap-2 bg-base-200 p-2 rounded-lg hover:bg-base-300 transition-colors">
             <input
               type="checkbox"
               checked={showOnlineOnly}
               onChange={(e) => setShowOnlineOnly(e.target.checked)}
-              className="checkbox checkbox-sm"
+              className="checkbox checkbox-sm checkbox-primary"
             />
-            <span className="text-sm">Show online only</span>
+            <span className="text-sm font-medium">Show online only</span>
           </label>
-          <span className="text-xs text-zinc-500">({onlineUsers.length - 1} online)</span>
+          <div className="flex items-center gap-1">
+            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+            <span className="text-xs text-zinc-500 font-medium">
+              {onlineUsers.length - 1} online
+            </span>
+          </div>
         </div>
       </div>
 
-      <div className="overflow-y-auto w-full py-3">
+      <div className="overflow-y-auto w-full py-4 scrollbar-thin scrollbar-thumb-base-300 scrollbar-track-transparent">
         {filteredUsers.map((user) => (
           <button
             key={user.id}
             onClick={() => setSelectedUser(user)}
             className={`
-              w-full p-3 flex items-center gap-3
-              hover:bg-base-200 transition-colors
-              ${selectedUser?.id === user.id ? "bg-base-200 border-r-4 border-primary" : ""}
+              w-full p-3 flex items-center gap-4 rounded-xl
+              hover:bg-primary/5 hover:shadow-lg transition-all duration-150
+              ${selectedUser?.id === user.id ? "bg-primary/20 border-r-4 border-primary shadow-lg" : ""}
             `}
           >
             <div className="relative mx-auto lg:mx-0">
               <img
                 src={user.profilePic || "/avatar.png"}
                 alt={user.name}
-                className="size-12 object-cover rounded-full"
+                className="size-12 object-cover rounded-full border-2 border-primary/30 shadow-md"
               />
               {onlineUsers.includes(user.id) && (
-                <span className="absolute bottom-0 right-0 size-3 bg-green-500 rounded-full ring-2 ring-base-100" />
+                <span className="absolute bottom-0 right-0 size-3 bg-green-500 rounded-full ring-2 ring-base-100 shadow" />
               )}
             </div>
 
             {/* User info - only visible on larger screens */}
             <div className="hidden lg:block text-left min-w-0 flex-1">
-              <div className="font-medium truncate text-base-content">{user.fullName}</div>
-              <div className="text-xs text-zinc-500 truncate">@{user.username}</div>
-              <div className={`text-xs flex items-center gap-1 ${
+              <div className="inline-block px-2 py-0.5 bg-primary/10 text-primary font-semibold text-sm rounded-md shadow-sm mb-1 truncate font-mono">@{user.username}</div>
+              <div className={`text-xs flex items-center gap-1 mt-1 ${
                 onlineUsers.includes(user.id) ? "text-green-600" : "text-zinc-400"
               }`}>
-                <div className={`w-1.5 h-1.5 rounded-full ${
+                <div className={`w-2 h-2 rounded-full ${
                   onlineUsers.includes(user.id) ? "bg-green-500" : "bg-zinc-400"
                 }`}></div>
                 {onlineUsers.includes(user.id) ? "Online" : "Offline"}
@@ -81,8 +87,11 @@ const Sidebar = () => {
         ))}
 
         {filteredUsers.length === 0 && (
-          <div className="text-center text-zinc-500 py-4">
-            {showOnlineOnly ? "No online users" : "No contacts found"}
+          <div className="text-center text-zinc-400 py-10 flex flex-col items-center gap-3">
+            <Users className="size-12 text-zinc-300 mb-2" />
+            <span className="font-semibold text-base">
+              {showOnlineOnly ? "No online users" : "No contacts found"}
+            </span>
           </div>
         )}
       </div>
