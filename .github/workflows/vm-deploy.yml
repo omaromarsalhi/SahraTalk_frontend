@@ -1,7 +1,11 @@
 name: Deploy SahraTalk FrontEnd
 
 on:
-  workflow_dispatch:
+  workflow_run:
+      workflows: ['Build and Push SahraTalk FrontEnd']
+      types:
+        - completed
+  workflow_dispatch: 
 
 jobs:
   deploy:
