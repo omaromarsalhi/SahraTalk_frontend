@@ -1,41 +1,12 @@
-name: Build, Push, and Deploy SahraTal FrontEnd
+name: Deploy SahraTalk FrontEnd
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 jobs:
-  build-and-push:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/sahratalk-fe:1.0
-          build-args: |
-            VITE_BACKEND_URL=${{ secrets.VITE_BACKEND_URL }}
-
   deploy:
     runs-on: ubuntu-latest
-    needs: build-and-push  # Waits for the build-and-push job to complete
-  
+
     steps:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.2.1
@@ -44,9 +15,7 @@ jobs:
           username: ${{ secrets.VM_USER }}
           key: ${{ secrets.VM_SSH_KEY }}
           script: |
-          
             echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-
 
             # Stop and remove container if it exists
             if [ "$(docker ps -aq -f name=SahraTalkFE)" ]; then
@@ -64,12 +33,12 @@ jobs:
             else
                 echo "No existing image omarsalhi1/sahratalk-fe:1.0 found."
             fi
-     
+
             docker pull ${{ secrets.DOCKER_USERNAME }}/sahratalk-fe:1.0
-  
+
             # Run the container 
             docker run -d --name SahraTalkFE -p 8080:80 ${{ secrets.DOCKER_USERNAME }}/sahratalk-fe:1.0
-  
+
             # Verify the container is running
             docker ps -a | grep SahraTalkFE
             echo "Deployment completed!"
