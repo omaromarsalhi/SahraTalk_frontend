@@ -25,7 +25,6 @@ const ChatHeader = () => {
             <div className="inline-block px-2 py-0.5 bg-primary/10 text-primary font-semibold text-md rounded-md shadow-sm truncate font-mono">
               @{selectedUser.username}
             </div>
-            <span className="absolute bottom-0 right-0 size-3 bg-green-500 rounded-full ring-2 ring-base-100 shadow" />
           </div>
         </div>
 

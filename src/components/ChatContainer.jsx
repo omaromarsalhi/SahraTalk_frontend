@@ -8,14 +8,8 @@ import { useAuthStore } from "../store/useAuthStore";
 import { formatMessageTime } from "../lib/utils";
 
 const ChatContainer = () => {
-  const {
-    messages,
-    getMessages,
-    isMessagesLoading,
-    selectedUser,
-    // subscribeToMessages,
-    // unsubscribeFromMessages,
-  } = useChatStore();
+  const { messages, getMessages, isMessagesLoading, selectedUser } =
+    useChatStore();
   const { authUser } = useAuthStore();
   const messageEndRef = useRef(null);
 
@@ -28,12 +22,6 @@ const ChatContainer = () => {
       messageEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
-
-  useEffect(() => {
-    if (messageEndRef.current) {
-      messageEndRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, []);
 
   if (isMessagesLoading) {
     return (
@@ -81,6 +69,11 @@ const ChatContainer = () => {
                   src={message.image}
                   alt="Attachment"
                   className="max-w-[200px] rounded-md mb-2"
+                     onLoad={() => {
+                    if (messageEndRef.current) {
+                      messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+                    }
+                  }}
                 />
               )}
               {message.text && (
