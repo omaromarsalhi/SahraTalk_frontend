@@ -91,7 +91,7 @@ const Sidebar = () => {
               <div className="relative mx-auto lg:mx-0">
                 <img
                   src={user.image || "/avatar.png"}
-                  alt={user.name}
+                  alt={user.username}
                   className="size-12 object-cover rounded-full border-2 border-primary/30 shadow-md"
                 />
                 {onlineUsers.includes(user.id) && (
@@ -102,9 +102,6 @@ const Sidebar = () => {
               <div className="flex items-center text-left min-w-0 flex-1">
                 <div className="inline-block px-2 py-0.5 bg-primary/10 text-primary font-semibold text-md rounded-md shadow-sm truncate font-mono">
                   @{user.username}
-                </div>
-                <div className="text-sm text-zinc-500 truncate">
-                  {user.name}
                 </div>
               </div>
             </button>
@@ -136,9 +133,7 @@ const Sidebar = () => {
                 <div className="font-semibold text-primary text-md truncate font-mono">
                   @{authUser.username}
                 </div>
-                <div className="text-xs text-zinc-500 truncate">
-                  {authUser.name}
-                </div>
+          
               </div>
             </div>
           </div>

@@ -15,7 +15,13 @@ import SettingsPage from "./pages/SettingsPage";
 import ProfilePage from "./pages/ProfilePage";
 
 const App = () => {
-  const { authUser, checkAuth, isCheckingAuth, onlineUsers } = useAuthStore();
+  const {
+    authUser,
+    checkAuth,
+    isCheckingAuth,
+    onlineUsers,
+    subscribeToMessages,
+  } = useAuthStore();
   const { theme } = useThemeStore();
 
   console.log({ onlineUsers });
@@ -24,7 +30,13 @@ const App = () => {
     checkAuth();
   }, [checkAuth]);
 
-  console.log( 'the authUser is:',{ authUser });
+  useEffect(() => {
+    if (authUser) {
+      subscribeToMessages();
+    }
+  }, [authUser, subscribeToMessages]);
+
+  console.log("the authUser is:", { authUser });
 
   if (isCheckingAuth && !authUser)
     return (

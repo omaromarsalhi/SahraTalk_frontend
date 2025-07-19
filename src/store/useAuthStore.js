@@ -3,6 +3,7 @@ import { axiosInstance } from "../lib/axios.js";
 import toast from "react-hot-toast";
 import { io } from "socket.io-client";
 import { tokenService } from "../utils/tokenService";
+import { useChatStore } from "./useChatStore.js";
 
 const BASE_URL =
   import.meta.env.MODE === "development"
@@ -58,6 +59,7 @@ export const useAuthStore = create((set, get) => ({
       }
       toast.success("Logged in successfully");
       get().connectSocket();
+      get().subscribeToMessages();
     } catch (error) {
       toast.error(error.response?.data?.message || error.message);
     } finally {
@@ -126,6 +128,28 @@ export const useAuthStore = create((set, get) => ({
 
     socket.on("getOnlineUsers", (userIds) => {
       set({ onlineUsers: userIds });
+    });
+  },
+
+  subscribeToMessages: () => {
+    const socket = get().socket;
+
+    socket.off("newMessage");
+
+    socket.on("newMessage", (newMessage) => {
+      const selectedUser = useChatStore.getState().selectedUser;
+      const isMessageSentFromSelectedUser =
+        newMessage.senderId === selectedUser?.id;
+
+      if (!isMessageSentFromSelectedUser) {
+        toast(`New message from @${newMessage.sender.username}`, {
+          icon: "🔔",
+        });
+      } else {
+        useChatStore.setState((state) => ({
+          messages: [...state.messages, newMessage],
+        }));
+      }
     });
   },
 

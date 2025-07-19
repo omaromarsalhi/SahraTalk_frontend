@@ -13,8 +13,8 @@ const ChatContainer = () => {
     getMessages,
     isMessagesLoading,
     selectedUser,
-    subscribeToMessages,
-    unsubscribeFromMessages,
+    // subscribeToMessages,
+    // unsubscribeFromMessages,
   } = useChatStore();
   const { authUser } = useAuthStore();
   const messageEndRef = useRef(null);
@@ -22,10 +22,11 @@ const ChatContainer = () => {
   useEffect(() => {
     getMessages(selectedUser.id);
 
-    subscribeToMessages();
+    // subscribeToMessages();
 
-    return () => unsubscribeFromMessages();
-  }, [selectedUser.id, getMessages, subscribeToMessages, unsubscribeFromMessages]);
+    // return () => unsubscribeFromMessages();
+    // }, [selectedUser.id, getMessages, subscribeToMessages, unsubscribeFromMessages]);
+  }, [selectedUser.id, getMessages]);
 
   useEffect(() => {
     if (messageEndRef.current && messages) {
@@ -51,7 +52,9 @@ const ChatContainer = () => {
         {messages.map((message) => (
           <div
             key={message.id}
-            className={`chat ${message.senderId === authUser.id ? "chat-end" : "chat-start"}`}
+            className={`chat ${
+              message.senderId === authUser.id ? "chat-end" : "chat-start"
+            }`}
             ref={messageEndRef}
           >
             <div className="chat-image avatar">
@@ -80,7 +83,9 @@ const ChatContainer = () => {
                 />
               )}
               {message.text && (
-                <p className="text-base break-words whitespace-normal truncate">{message.text}</p>
+                <p className="text-base break-words whitespace-normal truncate">
+                  {message.text}
+                </p>
               )}
             </div>
           </div>

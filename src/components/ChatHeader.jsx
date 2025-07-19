@@ -13,16 +13,19 @@ const ChatHeader = () => {
           {/* Avatar */}
           <div className="avatar">
             <div className="size-10 rounded-full relative">
-              <img src={selectedUser.image || "/avatar.png"} alt={selectedUser.fullName} />
+              <img src={selectedUser.image || "/avatar.png"} alt={selectedUser.username} />
             </div>
+             {onlineUsers.includes(selectedUser.id) && (
+              <span className="absolute bottom-0 right-0 size-3 bg-green-500 rounded-full ring-2 ring-base-100 shadow" />
+            )}
           </div>
 
           {/* User info */}
-          <div>
-            <h3 className="font-medium">{selectedUser.fullName}</h3>
-            <p className="text-sm text-base-content/70">
-              {onlineUsers.includes(selectedUser.id) ? "Online" : "Offline"}
-            </p>
+          <div className="flex items-center text-left min-w-0 flex-1">
+            <div className="inline-block px-2 py-0.5 bg-primary/10 text-primary font-semibold text-md rounded-md shadow-sm truncate font-mono">
+              @{selectedUser.username}
+            </div>
+            <span className="absolute bottom-0 right-0 size-3 bg-green-500 rounded-full ring-2 ring-base-100 shadow" />
           </div>
         </div>
 
@@ -35,3 +38,9 @@ const ChatHeader = () => {
   );
 };
 export default ChatHeader;
+
+
+ 
+
+
+
