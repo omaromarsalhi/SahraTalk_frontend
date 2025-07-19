@@ -41,8 +41,8 @@ jobs:
 
             docker pull ${{ secrets.DOCKER_USERNAME }}/sahratalk-fe:1.0
 
-            # Run the container 
-            docker run -d --name SahraTalkFE -p 8080:80 ${{ secrets.DOCKER_USERNAME }}/sahratalk-fe:1.0
+            # Run the container
+            docker run -d --name SahraTalkFE -p 8080:80 ${{ secrets.DOCKER_USERNAME }}/sahratalk-fe:1.0 --network=sahra_net
 
             # Verify the container is running
             docker ps -a | grep SahraTalkFE
