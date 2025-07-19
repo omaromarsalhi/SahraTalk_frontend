@@ -54,7 +54,7 @@ const ChatContainer = () => {
             className={`chat ${message.senderId === authUser.id ? "chat-end" : "chat-start"}`}
             ref={messageEndRef}
           >
-            <div className=" chat-image avatar">
+            <div className="chat-image avatar">
               <div className="size-10 rounded-full border">
                 <img
                   src={
@@ -76,10 +76,12 @@ const ChatContainer = () => {
                 <img
                   src={message.image}
                   alt="Attachment"
-                  className="sm:max-w-[200px] rounded-md mb-2"
+                  className="max-w-[200px] rounded-md mb-2"
                 />
               )}
-              {message.text && <p>{message.text}</p>}
+              {message.text && (
+                <p className="text-base break-words whitespace-normal truncate">{message.text}</p>
+              )}
             </div>
           </div>
         ))}
